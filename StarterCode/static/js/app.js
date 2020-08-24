@@ -1,9 +1,41 @@
 //Use the D3 library to read in samples.json.
-
+d3.json("samples.json").then(data) => {
+    console.log(data);
+    var bbData = [data]
+});
 
 //Create a horizontal bar chart with a dropdown menu to display the top 10 OTUs found in that individual.
+function init(){
+    data = [{
+        x:[],
+        y:[]}];
 
+    Plotly.newplot("bar", data)
+};
 
+d3.selectAll("#selDataset").on("change", updatePlotly);
+
+function updatePlotly(){
+
+    var dropdown = d3.select("#selDataset");
+
+    var dataset = dropdown.property("value");
+
+    var x = [];
+    var y = [];
+
+    switch (dataset) {
+        case "name":
+            x = [];
+            y = [];
+            break;
+    }
+
+    Plotly.restyle("bar", "x", [x]);
+    Plotly.restyle("bar", "y", [y]);
+};
+
+init();
 
 
 ///Use sample_values as the values for the bar chart.
