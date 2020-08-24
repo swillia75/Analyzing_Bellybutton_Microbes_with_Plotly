@@ -1,41 +1,87 @@
+// function unpack(rows, index) {
+//     return rows.map(function(row) {
+//         return row[index];
+//     });
+// };
+
 //Use the D3 library to read in samples.json.
-d3.json("samples.json").then(data) => {
-    console.log(data);
-    var bbData = [data]
-});
 
+function buildPlot(){
+    d3.json("data/samples.json").then((samples) => {
+        var otuValues = (samples.samples.otu_ids)
+        var otuID = (samples.samples.sample_values)
+        console.log(otuValues, otuID);
+    
+        
+    });
+};
+
+buildPlot();    // var sample_values = (data.dataset.samples, 2)
+    // console.log(sample_values)
+//});
+
+// data.sort(function compareFunction(firstnum, secondnum){
+//     return secondnum-firstnum;
+// });
+
+// console.log(bbData);
+
+// function unpack(rows, index) {
+//     return rows.map(function(row) {
+//       return row[index];
+//     });
+//   }
+  
+  
+
+//Object.entries(bbData).forEach(([key, value]) => console.log(`Key: ${key} and Value ${value}`));
 //Create a horizontal bar chart with a dropdown menu to display the top 10 OTUs found in that individual.
-function init(){
-    data = [{
-        x:[],
-        y:[]}];
+// function init(){
+//     var otuData = [{
+// /      type: "bar"
+//        x:[samples.bbData.samples[0]],
+//        y:[bbData.dataset.samples[1]]}];
+//        orientation = "h"
+//     ]};
 
-    Plotly.newplot("bar", data)
-};
+//     Plotly.newplot("bar", otuData, orientation)
 
-d3.selectAll("#selDataset").on("change", updatePlotly);
+//     var metadata = d3.select("sample-metadata")
+//     console.log(metadata)
 
-function updatePlotly(){
+//     data.forEach((subject) => {console.log(subject))
+//         var row = 
+//     }
+// };
 
-    var dropdown = d3.select("#selDataset");
+// d3.selectAll("#selDataset").on("change", updatePlotly);
 
-    var dataset = dropdown.property("value");
+// function updatePlotly(){
 
-    var x = [];
-    var y = [];
+//     var dropdown = d3.select("#selDataset");
 
-    switch (dataset) {
-        case "name":
-            x = [];
-            y = [];
-            break;
-    }
+//     var dataset = dropdown.property("value");
 
-    Plotly.restyle("bar", "x", [x]);
-    Plotly.restyle("bar", "y", [y]);
-};
+//     var x = [];
+//     var y = [];
 
-init();
+//     switch (dataset) {
+//         case "name":
+//             x = [];
+//             y = [];
+//             break;
+//     }
+
+//     Plotly.restyle("bar", "x", [x]);
+//     Plotly.restyle("bar", "y", [y]);
+// };*/
+
+// //init();
+
+// function handleSubmit() {
+//     d3.event.preventDefault();
+
+// };
 
 
 ///Use sample_values as the values for the bar chart.
