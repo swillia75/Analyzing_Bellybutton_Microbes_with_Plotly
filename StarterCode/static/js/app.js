@@ -20,11 +20,11 @@ d3.json("data/samples.json").then(function(data) {
     
     var otuCount = samples.map(function(samples) {
         return samples.sample_values;
-      });
+    });
  
-     console.log(otuCount);
+    console.log(otuCount);
     
-//    
+    
     var sampleValue = []
     var otuIds =[]
 
@@ -67,10 +67,16 @@ d3.json("data/samples.json").then(function(data) {
     
       // Plot the chart to a div tag with id "plot"
     Plotly.newPlot("bar", data, layout);
-});    
+ 
+      
+    
 
-
-
+    var li1 = d3.select("ul").append("li").text(metadata[0].id);
+    var li2 = d3.select("ul").append("li").text(metadata[0].ethnicity);   
+    var li3 = d3.select("ul").append("li").text(metadata[0].gender);
+    var li4 = d3.select("ul").append("li").text(metadata[0].age);
+    var li5 = d3.select("ul").append("li").text(metadata[0].location);
+});
 
 // // // var slicedSamples = samples.slice(0, 10);
 
