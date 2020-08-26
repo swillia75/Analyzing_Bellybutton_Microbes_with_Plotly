@@ -25,25 +25,32 @@ d3.json("data/samples.json").then(function(data) {
      console.log(otuCount);
     
 //    
-    var slicedSample = []
+    var sampleValue = []
     var otuIds =[]
-//     // console.log(sortedSamples)
-    
-    for (var i = 0; i < 10; i++) {
-        var sliced = otuCount.slice(0, 10);
-         slicedSample.push(sliced[i]);
-    };
-    
-    
-    console.log(slicedSample);
 
-    for (var i = 0; i < 10; i++) {
-
-        otuIds.push(otuId[i].slice(0, 10));
+    
+    for (var i = 0; i < otuId.length; i++) {
+        var sliced = otuCount[i].slice(0, 10);
+         otuIds.push(sliced);
     };
     
     
     console.log(otuIds);
+
+    for (var i = 0; i < otuCount.length; i++) {
+        var slice = otuCount[i].slice(0, 10);
+         sampleValue.push(slice);
+    };
+    
+    
+    console.log(sampleValue);
+//     for (var i = 0; i < 10; i++) {
+
+//         otuIds.push(otuId[i].slice(0, 10));
+//     };
+    
+    
+//     console.log(otuIds);
 });
     // var trace1 = {
     //     x: samples.otu_ids[0],
