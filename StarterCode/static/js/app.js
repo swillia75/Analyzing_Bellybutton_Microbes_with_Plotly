@@ -30,7 +30,7 @@ d3.json("data/samples.json").then(function(data) {
 
     
     for (var i = 0; i < otuId.length; i++) {
-        var sliced = otuCount[i].slice(0, 10);
+        var sliced = otuId[i].slice(0, 10);
          otuIds.push(sliced);
     };
     
@@ -44,36 +44,30 @@ d3.json("data/samples.json").then(function(data) {
     
     
     console.log(sampleValue);
-//     for (var i = 0; i < 10; i++) {
 
-//         otuIds.push(otuId[i].slice(0, 10));
-//     };
-    
-    
-//     console.log(otuIds);
-});
-    // var trace1 = {
-    //     x: samples.otu_ids[0],
-    //     y: samples.sample_values[0],
-    //     type: "bar",
-    //     name: "BellyBotton Biodiversity",
-    //     orientation: "h"
+
+    var trace1 = {
+        x: sampleValue[0],
+        y: otuIds[0],
+        type: "bar",
+        name: "BellyBotton Biodiversity",
+        orientation: "h"
        
-    // };
+    };
     
-    //   // Create the data array for the plot
-    // var data = [trace1];
+      // Create the data array for the plot
+    var data = [trace1];
     
-    //   // Define the plot layout
-    // var layout = {
-    //     title: "BellyBotton Biodiversity",
-    //     xaxis: { title: "Count" },
-    //     yaxis: { title: "Otu ID" }
-    // };
+      // Define the plot layout
+    var layout = {
+        title: "BellyBotton Biodiversity",
+        xaxis: { title: "Count" },
+        yaxis: { title: "Otu ID" }
+    };
     
-    //   // Plot the chart to a div tag with id "plot"
-    // Plotly.newPlot("bar", data, layout);
-// });    
+      // Plot the chart to a div tag with id "plot"
+    Plotly.newPlot("bar", data, layout);
+});    
 
 
 
