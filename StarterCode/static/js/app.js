@@ -30,28 +30,27 @@ function init(){
     var Id = firstDataset.map(function(samples) {
         return samples.otu_ids;
     });
-    
-    console.log(Id);        
+
+    console.log(Id);
+      
+    var microbes = Id.toString().split(",");
+    var bbmicrobes = microbes.slice(0, 10, ",");
+    console.log(bbmicrobes);
+               
+            
             
     var otuCount = firstDataset.map(function(samples) {
         return samples.sample_values;
-    });  
-                  
-    console.log(otuCount);
-        
+    }); 
     
-
-    var otuIDs = Id.slice(0, 10);
-    console.log(otuIDs);   
+    var colonies = otuCount.slice(0, 10);              
+    console.log(colonies);
     
-           
-    var microbes = otuCount.slice(0, 10);     
-    console.log(microbes);
-      
+       
       
     var trace1 = {
-      x: microbes,
-      y: otuIDs,
+      x: colonies,
+      y: bbmicrobes,
       type: "bar",
       name: "BellyBotton Biodiversity",
       orientation: "h"
@@ -76,14 +75,16 @@ function init(){
 
     var firstMetadata = metadata.filter(initialMetadata);
     console.log(firstMetadata)
+    
 
-    var li1 = d3.select("ul").append("li").text(`ID: ${firstMetadata.id}`);
-    var li2 = d3.select("ul").append("li").text(`Ethnicity: ${firstMetadata.ethnicity}`);   
-    var li3 = d3.select("ul").append("li").text(`Gender: ${firstMetadata.gender}`);
-    var li4 = d3.select("ul").append("li").text(`Age: ${firstMetadata.age}`);
-    var li5 = d3.select("ul").append("li").text(`Location: ${firstMetadata.location}`);
-    var li6 = d3.select("ul").append("li").text(`Location: ${firstMetadata.bbtype}`);
-    var li7 = d3.select("ul").append("li").text(`Location: ${firstMetadata.wfreq}`);
+     
+    var li1 = d3.select("ul").append("li").text("ID:");
+    var li2 = d3.select("ul").append("li").text("Ethnicity:")   
+    var li3 = d3.select("ul").append("li").text("Gender:");
+    var li4 = d3.select("ul").append("li").text("Age:");
+    var li5 = d3.select("ul").append("li").text("Location:");
+    var li6 = d3.select("ul").append("li").text("Bbtype:");
+    var li7 = d3.select("ul").append("li").text("Wfreq:");
     
   });
 };
