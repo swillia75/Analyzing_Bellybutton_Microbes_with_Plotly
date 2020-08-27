@@ -23,12 +23,56 @@ function init(){
       return subject.id === "940";
     };  
 
-    function initialMetadata(data) {
-      return data.id === 940;
-    }; 
-
+    
     var firstDataset = samples.filter(initialSubject);
     console.log(firstDataset)
+
+    var Id = firstDataset.map(function(samples) {
+        return samples.otu_ids;
+    });
+    
+    console.log(Id);        
+            
+    var otuCount = firstDataset.map(function(samples) {
+        return samples.sample_values;
+    });  
+                  
+    console.log(otuCount);
+        
+    
+
+    var otuIDs = Id.slice(0, 10);
+    console.log(otuIDs);   
+    
+           
+    var microbes = otuCount.slice(0, 10);     
+    console.log(microbes);
+      
+      
+    var trace1 = {
+      x: microbes,
+      y: otuIDs,
+      type: "bar",
+      name: "BellyBotton Biodiversity",
+      orientation: "h"
+    };
+            
+              // Create the data array for the plot
+    var data = [trace1];
+            
+              // Define the plot layout
+    var layout = {
+        title: "BellyBotton Biodiversity",
+        xaxis: { title: "Count" },
+        yaxis: { title: "Otu ID" }
+    };
+            
+              // Plot the chart to a div tag with id "plot"
+    Plotly.newPlot("bar", data, layout);
+        
+    function initialMetadata(data) {
+      return data.id === 940;
+    };
 
     var firstMetadata = metadata.filter(initialMetadata);
     console.log(firstMetadata)
