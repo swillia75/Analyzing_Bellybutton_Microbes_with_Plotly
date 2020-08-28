@@ -49,7 +49,7 @@ function init(){
        
       
     var trace1 = {
-      x: colonies,
+      x: [1, 2, 3, 4, 5, 6, 7, 8, 8, 9],
       y: bbmicrobes,
       type: "bar",
       name: "BellyBotton Biodiversity",
@@ -78,7 +78,7 @@ function init(){
     
 
      
-    var li1 = d3.select("ul").append("li").text("ID:");
+    var li1 = d3.select("ul").append("li").text(firstMetadata[0]);
     var li2 = d3.select("ul").append("li").text("Ethnicity:")   
     var li3 = d3.select("ul").append("li").text("Gender:");
     var li4 = d3.select("ul").append("li").text("Age:");
@@ -86,6 +86,25 @@ function init(){
     var li6 = d3.select("ul").append("li").text("Bbtype:");
     var li7 = d3.select("ul").append("li").text("Wfreq:");
     
+    var trace2 = {
+      x: [1, 2, 3, 4, 5, 6, 7, 8, 8, 9],
+      y: bbmicrobes,
+      mode: 'markers',
+      marker: {
+        size: [40, 60, 80, 100]
+      }
+    };
+    
+    var data = [trace2];
+    
+    var layout = {
+      title: 'Marker Size',
+      showlegend: false,
+      height: 600,
+      width: 600
+    };
+    
+    Plotly.newPlot('bubble', data, layout);
   });
 };
 
