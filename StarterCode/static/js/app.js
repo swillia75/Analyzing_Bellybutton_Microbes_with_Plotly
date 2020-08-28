@@ -126,17 +126,15 @@ function optionChanged() {
    
     for (var j = 0; j < samples.length; j++) {
 
-    //   // if (option === data.names[0]) {
-    //   //   var newNames = Object.values(data.names[0]);
-    //   // }
+    
 
       if (parseInt(option) === metadata[j].id) {
-        var newMetadata = Object.values(metadata[j]);
+        var newMetadata = Object.entries(metadata[j]);
 
       };
 
       if (option === samples[j].id) {
-        var newSamples = Object.values(samples[j]);
+        var newSamples = Object.entries(samples[j]);
         
       };
       
@@ -144,30 +142,24 @@ function optionChanged() {
 
     console.log(newSamples);
     console.log(newMetadata);
-    // console.log(newSamples);
+  
 
-    // function initialSubject(subject) {
-    //   return subject.id === "940";
-    // };  
+   
+    var Id = newSamples.map(function(subject) {
+         return subject;
+    });
 
-    
-    // var firstDataset = samples.filter(initialSubject);
-    // console.log(firstDataset)
-
-    // var Id = firstDataset.map(function(samples) {
-    //     return samples.otu_ids;
-    // });
-
-    // console.log(Id);
+    console.log(Id);
       
-    // var microbes = Id.toString().split(",");
-    // var bbmicrobes = microbes.slice(0, 10, ",");
+    // var microbes = Id[1].toString().split(",");
+    // console.log(microbes)
+    // var bbmicrobes = microbes[2].split(0, 10);
     // console.log(bbmicrobes);
                
             
             
-    // var otuCount = firstDataset.map(function(samples) {
-    //     return samples.sample_values;
+    // var otuCount = newSamples.map(function(counts) {
+    //      return counts[2];
     // }); 
     
     // var colonies = otuCount.slice(0, 10);              
@@ -195,19 +187,20 @@ function optionChanged() {
             
     //           // Plot the chart to a div tag with id "plot"
     // Plotly.newPlot("bar", data, layout);
+
+    d3.select("ul").text(" ");
         
-    // function initialMetadata(data) {
-    //   return data.id === 940;
-    // };
+    for (i = 0; i < newMetadata.length; i++) {
 
-    // var firstMetadata = metadata.filter(initialMetadata);
-    // console.log(firstMetadata)
+      
 
-    // firstMetadata.forEach((data) => {
-    //     Object.entries(data).forEach(([key, value]) => {
-    //       d3.select("ul").append("li").text(`${key} ${value}`);
+      d3.select("ul").append("li").text(newMetadata[i]);
+    };
+    // newMetadata.forEach((data) => {
+    //   Object.entries(data).forEach(([key, value]) => {
+        
     //     });
-    // });
+    //});
         
     // //Bubble chart
     // var trace2 = {
