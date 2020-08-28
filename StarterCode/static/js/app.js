@@ -1,6 +1,6 @@
 function init(){
   var dropdownMenu = d3.selectAll("#selDataset").node()
-  // var dropdownMenuID = dropdownMenu.id;
+  
   var option = dropdownMenu.value;
 
   d3.json("data/samples.json").then(function(data) {
@@ -47,9 +47,9 @@ function init(){
     console.log(colonies);
     
        
-      
+    //Horizontal bar chart  
     var trace1 = {
-      x: [1, 2, 3, 4, 5, 6, 7, 8, 8, 9],
+      x: colonies,
       y: bbmicrobes,
       type: "bar",
       name: "BellyBotton Biodiversity",
@@ -75,19 +75,26 @@ function init(){
 
     var firstMetadata = metadata.filter(initialMetadata);
     console.log(firstMetadata)
-    
 
-     
-    var li1 = d3.select("ul").append("li").text(firstMetadata[0]);
-    var li2 = d3.select("ul").append("li").text("Ethnicity:")   
-    var li3 = d3.select("ul").append("li").text("Gender:");
-    var li4 = d3.select("ul").append("li").text("Age:");
-    var li5 = d3.select("ul").append("li").text("Location:");
-    var li6 = d3.select("ul").append("li").text("Bbtype:");
-    var li7 = d3.select("ul").append("li").text("Wfreq:");
+    firstMetadata.forEach((data) => {
+        Object.entries(data).forEach(([key, value]) => {
+          d3.select("ul").append("li").text(`${key} ${value}`);
+        });
+    });
+    // var keys = Object.keys(firstMetadata).forEach(key)
     
+     
+    // var li1 = 
+    // var li2 = d3.select("ul").append("li").text("Ethnicity:")   
+    // var li3 = d3.select("ul").append("li").text("Gender:");
+    // var li4 = d3.select("ul").append("li").text("Age:");
+    // var li5 = d3.select("ul").append("li").text("Location:");
+    // var li6 = d3.select("ul").append("li").text("Bbtype:");
+    // var li7 = d3.select("ul").append("li").text("Wfreq:");
+    
+    //Bubble chart
     var trace2 = {
-      x: [1, 2, 3, 4, 5, 6, 7, 8, 8, 9],
+      x: colonies,
       y: bbmicrobes,
       mode: 'markers',
       marker: {
@@ -105,6 +112,8 @@ function init(){
     };
     
     Plotly.newPlot('bubble', data, layout);
+
+    //Gauge
   });
 };
 
