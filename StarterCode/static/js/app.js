@@ -185,52 +185,45 @@ function optionChanged() {
     console.log(metadata);
     console.log(samples);
     
-   
+   var newdataValues = [] 
+   var newdataotuID = []    
+    
     for (var j = 0; j < samples.length; j++) {
 
-    
-
-      if (parseInt(option) === metadata[j].id) {
-        var newMetadata = Object.entries(metadata[j]);
-
-      };
-
       if (option === samples[j].id) {
-        var newSamples = Object.values(samples[j]);
+        newdataValues.push(samples[j].sample_values);
+        newdataotuID.push(samples[j].otu_ids)
         
       };
       
     };
 
-    console.log(newSamples);
-    console.log(newMetadata);
+    console.log(newdataValues);
+    console.log(newdataotuID);
   
 
    
-    var Id = newSamples.map(function(subject) {
-         return subject;
-    });
-
-    console.log(Id);
-      
-    var microbes = Id.toString().split(",");
+       
+    var microbes = newdataotuID.toString().split(",");
     console.log(microbes)
     var bbmicrobes = microbes.slice(0, 10);
     console.log(bbmicrobes);
                
             
             
-    var otuCount = newSamples.map(function(counts) {
+    var otuCount = newdataValues.map(function(counts) {
          return counts;
     }); 
     
-    var colonies = otuCount.slice(0, 10);              
-    console.log(colonies);
-    
+    // var colonies = otuCount.slice(0, 10);              
+    // console.log(colonies);
+    var cFu = otuCount.toString().split(",");
+    var bubbleColonies = cFu.slice(0, 10, ",");
+    console.log(bubbleColonies)
        
     //Horizontal bar chart  
     var trace1 = {
-      x: colonies,
+      x: parseInt(bubbleColonies),
       y: bbmicrobes,
       type: "bar",
       name: "BellyBotton Biodiversity",
@@ -252,18 +245,18 @@ function optionChanged() {
 
     d3.select("ul").text(" ");
         
-    for (i = 0; i < newMetadata.length; i++) {
+    for (i = 0; i < metadata.length; i++) {
 
       
 
-      d3.select("ul").append("li").text(newMetadata[i]);
+      d3.select("ul").append("li").text(metadata[i]);
     };
     
     
         
     // //Bubble chart
     var trace2 = {
-      x: colonies,
+      x: parseInt(bubbleColonies),
       y: bbmicrobes,
       mode: 'markers',
       marker: {
