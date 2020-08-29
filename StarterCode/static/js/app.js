@@ -219,7 +219,8 @@ function optionChanged() {
     // console.log(colonies);
     var cFu = otuCount.toString().split(",");
     var bubbleColonies = cFu.slice(0, 10, ",");
-    console.log(bubbleColonies)
+    
+    console.log(bubbleColonies);
        
     //Horizontal bar chart  
     var trace1 = {
@@ -245,11 +246,16 @@ function optionChanged() {
 
     d3.select("ul").text(" ");
         
+   
     for (i = 0; i < metadata.length; i++) {
 
+      if (option === metadata[i].id){
       
-
-      d3.select("ul").append("li").text(metadata[i]);
+        Object.entries(metadata).forEach(([key, value]) => {
+          console.log ([key, value])
+          d3.selectAll("ul").append("li").text(`${key} ${value}`);
+        });
+      };
     };
     
     
