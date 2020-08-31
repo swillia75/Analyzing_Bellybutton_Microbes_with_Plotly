@@ -54,8 +54,6 @@ function init(){
     // console.log(colonies)
        
     //Create a horizontal bar chart with a dropdown menu to display the top 10 OTUs found in that individual.
-      //Use sample_values as the values for the bar chart.
-      //Use otu_ids as the labels for the bar chart.
 
     //Use otu_labels as the hovertext for the chart.
     var otuLabel = firstDataset.map(function(samples) {
@@ -66,7 +64,7 @@ function init(){
     console.log(labels)
     //Create trace for horizontal bar chart
         
-    var trace1 = {
+    var tracehbar = {
       x: colonies,
       y: bbmicrobes,
       hovertext: labels
@@ -76,7 +74,7 @@ function init(){
     };
             
     // Create the data array for the plot
-    var data = [trace1];
+    var data = [tracehbar];
             
     // Define the plot layout
     var layout = {
@@ -102,20 +100,13 @@ function init(){
           d3.select("ul").append("li").text(`${key} ${value}`);
         });
     });
-        
+
+           
     //Create a bubble chart that displays each sample.
-      //Use otu_ids for the x values.
-      //Use sample_values for the y values.
-      //Use sample_values for the marker size.
-      //Use otu_ids for the marker colors.
-      //Use otu_labels for the text values.
-
-    // creating array of otu_labels        
+   
     
-  
-
     //Create trace for bubble chart
-    var trace2 = {
+    var tracebubble = {
       x: microbes,
       y: otuCount,
       mode: 'markers',
@@ -124,11 +115,11 @@ function init(){
         size: otuCount,
         color: microbes,
 
-      };
+      }
     };
     
     //Create data array for bubble plot
-    var bubbledata = [trace2];
+    var bubbledata = [tracebubble];
     
     //Create layout for bubble plot
     var layout = {
@@ -140,70 +131,76 @@ function init(){
     
     //Plot the chart to a div tag with id "bubble"
     Plotly.newPlot('bubble', bubbledata, layout);
-  });
+  
     //Gauge chart
 
-    // var traceGauge = {
-    //   type: 'pie',
-    //   showlegend: false,
-    //   hole: 0.4,
-    //   rotation: 90,
-    //   values: [ 81/9, 81/9, 81/9, 81/9, 81/9, 81/9, 81/9, 81/9, 81/9, 81],
-    //   text: ['0-1','1-2','2-3','3-4','4-5','5-6','6-7','7-8','8-9'],
-    //   direction: 'clockwise',
-    //   textinfo: 'text',
-    //   textposition: 'inside',
-    //   marker: {
-    //     colors: ['','','','','','','','','','white'],
-    //     labels: ['0-1','1-2','2-3','3-4','4-5','5-6','6-7','7-8','8-9'],
-    //     hoverinfo: 'label'
-    //   }
-    // };
+    //Create array for Wfreq and other
+    var wfreq = []
+    var other = []
 
-  //   var wfreq = []
-  //   var other = []
-  //   firstMetadata.forEach((data) => {
+    //Loop through first metadata for wfreq
+    firstMetadata.forEach((data) => {
 
-  //     // Iterate through each key and value
-  //     Object.entries(recipe).forEach(([key, value]) => {
+      // Iterate through each key and value
+      Object.entries(recipe).forEach(([key, value]) => {
     
-  //       // Use the key to determine which array to push the value to
-  //       if (key === "wfreq") {
-  //         wfreq.push(value);
-  //       }
-  //       else {
-  //         other.push(value);
-  //       };
-  //     });
+        // Use the key to determine which array to push the value to
+        if (key === "wfreq") {
+          wfreq.push(value);
+        }
+        else {
+          other.push(value);
+        };
+      });
 
-  //   console.log(wfreq);
-  //   var degrees = 50, radius = .9
-  //   var radians = degrees * Math.PI / 180
-  //   var x = -1 * radius * Math.cos(radians) * wfreq
-  //   var y = radius * Math.sin(radians)
+    //Use wfreq array to generate gauge plot
+
+    var traceGauge = {
+      type: 'pie',
+      showlegend: false,
+      hole: 0.4,
+      rotation: 90,
+      values: [ 180/9, 180/9, 180/9, 180/9, 180/9, 180/9, 180/9, 180/9, 180/9, 180],
+      text: ['0-1','1-2','2-3','3-4','4-5','5-6','6-7','7-8','8-9'],
+      direction: 'clockwise',
+      textinfo: 'text',
+      textposition: 'inside',
+      marker: {
+        colors: ['','','','','','','','','','white'],
+        labels: ['0-1','1-2','2-3','3-4','4-5','5-6','6-7','7-8','8-9'],
+        hoverinfo: 'label'
+      }
+    };
+
+ 
+
+    var degrees = 50, radius = .9
+    var radians = degrees * Math.PI / 180
+    var x = -1 * radius * Math.cos(radians) * wfreq
+    var y = radius * Math.sin(radians)
     
-  //   var gaugeLayout = {
-  //     shapes: [{
-  //       type: 'line',
-  //       x0: 0.5,
-  //       y0: 0.5,
-  //       x1: 0.6,
-  //       y1: 0.6,
-  //       line: {
-  //         color: 'black',
-  //         width: 3
-  //       }
-  //     }],
-  //     title: 'Chart',
-  //     xaxis: {visible: false, range: [-1, 1]},
-  //     yaxis: {visible: false, range: [-1, 1]}
-  //   }
+    var gaugeLayout = {
+      shapes: [{
+        type: 'line',
+        x0: 0,
+        y0: 0,
+        x1: 0.6,
+        y1: 0.6,
+        line: {
+          color: 'black',
+          width: 3
+        }
+      }],
+      title: 'Belly Button washing Frequency',
+      xaxis: {visible: false, range: [-1, 1]},
+      yaxis: {visible: false, range: [-1, 1]}
+    }
     
-  //   var dataGauge = [traceGauge]
+    var dataGauge = [traceGauge]
     
-  //   Plotly.plot('gauge', dataGauge, gaugeLayout)
+    Plotly.plot('gauge', dataGauge, gaugeLayout)
   
-  // });
+  });
 };
 
 //On click dropdown menu call function optionChanged
@@ -211,6 +208,7 @@ d3.selectAll("#selDataset").on("change", optionChanged);
 
 //Create function to be called by dropdown click
 function optionChanged() {
+
   var dropdownMenu = d3.selectAll("#selDataset").node();
 
   //Assign value of the dropdown option to a variable
@@ -263,6 +261,11 @@ function optionChanged() {
     //Create array for current metadata
     var currentMetadata = []
 
+    currentMetadata.forEach((data) => {
+      Object.entries(data).forEach(([key, value]) => {
+        d3.select("ul").append("li").text(`${key} ${value}`);
+      });
+    });
 
     //Loop through metadata object to metadata.id === option
     for (var i = 0; i < metadata.length; j++) {
@@ -278,8 +281,18 @@ function optionChanged() {
     console.log(currentMetadata);
 
 
-   
-       
+
+    updatePlotly("bar", "x", [selectValues]);
+    updatePlotly("bar", "y", [selectotuID]);
+    updatePlotly("bar", "hovertext", [selectLabels]);
+
+    updatePlotly("bubble", "x", [selectValues]);
+    updatePlotly("bubble", "y", [selectotuID]);
+    updatePlotly("bubble", "hovertext", [selectLabels]);
+
+    updatePlotly("bubble", "x", [selectValues]);
+    updatePlotly("bubble", "y", [selectotuID]);
+    updatePlotly("bubble", "hovertext", [selectLabels]);
     // var microbes = selectotuID.toString().split(",");
     // console.log(microbes)
     // var bbmicrobes = microbes.slice(0, 10);
@@ -296,74 +309,24 @@ function optionChanged() {
     // var cFu = otuCount.toString().split(",");
     // var bubbleColonies = cFu.slice(0, 10, ",");
     
-    // console.log(bubbleColonies);
-       
-    // //Horizontal bar chart  
-    // var trace1 = {
-    //   x: selectValues,
-    //   y: bbmicrobes,
-    //   type: "bar",
-    //   name: "BellyBotton Biodiversity",
-    //   orientation: "h"
+ 
     // };
             
-    //           // Create the data array for the plot
-    // var data = [trace1];
-            
-    //           // Define the plot layout
-    // var layout = {
-    //     title: "BellyBotton Biodiversity",
-    //     xaxis: { title: "Count",
-    //             tickmode: "linear"},
-    //     yaxis: { title: "Otu ID" }
-    // };
-            
-    //           // Plot the chart to a div tag with id "plot"
-    // Plotly.newPlot("bar", data, layout);
-
-    // d3.select("ul").text(" ");
+    
+     
         
-   
-    // for (i = 0; i < metadata.length; i++) {
-
-    //   if (option === metadata[i].id){
-      
-    //     Object.entries(metadata).forEach(([key, value]) => {
-    //       console.log ([key, value])
-    //       d3.selectAll("ul").append("li").text(`${key} ${value}`);
-    //     });
-    //   };
-    // };
     
-    
-        
-    // // //Bubble chart
-    // var trace2 = {
-    //   x: newdataotuID,
-    //   y: newdataValues,
-      
-    //   mode: 'markers',
-    //   marker: {
-    //     size: newdataValues,
-    //     colors: newdataotuID,
-    //   }
-    // };
-    
-    // var bubbledata = [trace2];
-    
-    // var bubblelayout = {
-    //   title: 'Marker Size',
-    //   showlegend: false,
-    //   height: 600,
-    //   width: 600
-    // };
-    
-    // Plotly.newPlot('bubble', bubbledata, bubblelayout);
 
     // //Gauge chart
   });
 };
-
+function updatePlotly(newData) {
+  Plotly.restyle("bar", "values", [newData]);
+  Plotly.restyle("bubble", "values", [newData]);
+  Plotly.restyle("gauge", "values", [newData]);
+  
+  
+}
 init();
 
 
