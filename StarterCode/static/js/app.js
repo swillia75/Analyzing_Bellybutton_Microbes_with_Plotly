@@ -1,8 +1,11 @@
+//create function for initial page
 function init(){
 
+  //Read data from json file
   d3.json("data/samples.json").then(function(data) {
     console.log(data);
 
+    //Create arrays from json object
     var names = Object.values(data.names);
     var metadata = Object.values(data.metadata);
     var samples = Object.values(data.samples);
@@ -11,62 +14,81 @@ function init(){
     console.log(metadata);
     console.log(samples);
 
+    //Loop through names array and add names to dropdown menu
     names.forEach((name) => {
       d3.selectAll("select")
       .append("option").text(name).property("value", name)
     });
 
+    //FIlter samples and metadata arrays for first subject - "940"
     function initialSubject(subject) {
       return subject.id === "940";
     };  
 
-    
     var firstDataset = samples.filter(initialSubject);
     console.log(firstDataset)
 
+
+    //creating array of otu_ids for plots
     var Id = firstDataset.map(function(samples) {
         return samples.otu_ids;
     });
 
     console.log(Id);
       
+    //Convert Id array to strings and slice the first 10 otu_ids for plots
     var microbes = Id.toString().split(",");
     var bbmicrobes = microbes.slice(0, 10, ",");
     console.log(bbmicrobes);
                
             
-            
+    // creating array of sample_values        
     var otuCount = firstDataset.map(function(samples) {
         return samples.sample_values;
     }); 
     
-    var cFu = otuCount.toString().split(",");
-    var colonies = cFu.slice(0, 10, ",");
+    //Slicing the first 10 sample_vaues
+    var colonies = otuCount.slice(0, 10);
+    console.log(colonies);
    
-    console.log(colonies)
+    // console.log(colonies)
        
-    //Horizontal bar chart  
+    //Create a horizontal bar chart with a dropdown menu to display the top 10 OTUs found in that individual.
+      //Use sample_values as the values for the bar chart.
+      //Use otu_ids as the labels for the bar chart.
+
+    //Use otu_labels as the hovertext for the chart.
+    var otuLabel = firstDataset.map(function(samples) {
+      return samples.otu_labels;
+    });
+
+    var labels= otuLabels.slice(0,10);
+    console.log(labels)
+    //Create trace for horizontal bar chart
+        
     var trace1 = {
-      x: parseInt(colonies),
+      x: colonies,
       y: bbmicrobes,
+      hovertext: labels
       type: "bar",
       name: "BellyBotton Biodiversity",
       orientation: "h"
     };
             
-              // Create the data array for the plot
+    // Create the data array for the plot
     var data = [trace1];
             
-              // Define the plot layout
+    // Define the plot layout
     var layout = {
         title: "BellyBotton Biodiversity",
         xaxis: { title: "Count" },
         yaxis: { title: "Otu ID" }
     };
             
-              // Plot the chart to a div tag with id "plot"
+    // Plot the chart to a div tag with id "bar"
     Plotly.newPlot("bar", data, layout);
-        
+
+    //Create function to filter first subject metadata for panel    
     function initialMetadata(data) {
       return data.id === 940;
     };
@@ -74,24 +96,41 @@ function init(){
     var firstMetadata = metadata.filter(initialMetadata);
     console.log(firstMetadata)
 
+    //Loop through firstMetadata to use object.entries to append key,value pairs to sample_metadata
     firstMetadata.forEach((data) => {
         Object.entries(data).forEach(([key, value]) => {
           d3.select("ul").append("li").text(`${key} ${value}`);
         });
     });
         
-    //Bubble chart
+    //Create a bubble chart that displays each sample.
+      //Use otu_ids for the x values.
+      //Use sample_values for the y values.
+      //Use sample_values for the marker size.
+      //Use otu_ids for the marker colors.
+      //Use otu_labels for the text values.
+
+    // creating array of otu_labels        
+    
+  
+
+    //Create trace for bubble chart
     var trace2 = {
-      x: parseInt(colonies),
-      y: bbmicrobes,
+      x: microbes,
+      y: otuCount,
       mode: 'markers',
+      text: otuLabel,
       marker: {
-        size: [40, 60, 80, 100]
-      }
+        size: otuCount,
+        color: microbes,
+
+      };
     };
     
-    var data = [trace2];
+    //Create data array for bubble plot
+    var bubbledata = [trace2];
     
+    //Create layout for bubble plot
     var layout = {
       title: 'Marker Size',
       showlegend: false,
@@ -99,7 +138,8 @@ function init(){
       width: 600
     };
     
-    Plotly.newPlot('bubble', data, layout);
+    //Plot the chart to a div tag with id "bubble"
+    Plotly.newPlot('bubble', bubbledata, layout);
   });
     //Gauge chart
 
@@ -166,17 +206,22 @@ function init(){
   // });
 };
 
+//On click dropdown menu call function optionChanged
 d3.selectAll("#selDataset").on("change", optionChanged);
 
+//Create function to be called by dropdown click
 function optionChanged() {
-  var dropdownMenu = d3.selectAll("#selDataset").node()
-  
+  var dropdownMenu = d3.selectAll("#selDataset").node();
+
+  //Assign value of the dropdown option to a variable
   var option = dropdownMenu.value;
   console.log(option)
-  
+
+  //Read data from json file
   d3.json("data/samples.json").then(function(data) {
     console.log(data);
 
+    //create arrays from json object
     var names = Object.values(data.names);
     var metadata = Object.values(data.metadata);
     var samples = Object.values(data.samples);
@@ -184,104 +229,138 @@ function optionChanged() {
     console.log(names);
     console.log(metadata);
     console.log(samples);
-    
-   var newdataValues = [] 
-   var newdataotuID = []    
-    
+
+    //Initialize empty arrays for sample_values, otu_ids, and otu_labels
+    var selectValues = [] 
+    var selectotuID = []  
+    var selectLabels = []  
+
+    //Loop through samples array and look for sample.id === option
     for (var j = 0; j < samples.length; j++) {
 
       if (option === samples[j].id) {
-        newdataValues.push(samples[j].sample_values);
-        newdataotuID.push(samples[j].otu_ids)
+
+        // When option === sample.id, sample_values, otu_ids, 
+        //and otu_labels are pushed to the empty arrays
+        selectValues.push(samples[j].sample_values);
+        selectotuID.push(samples[j].otu_ids);
+        selectLabels.push(samples[j].otu_labels)
         
       };
       
     };
 
-    console.log(newdataValues);
-    console.log(newdataotuID);
-  
+    console.log(selectValues);
+    console.log(selectotuID);
+    console.log(selectLabels);
+
+
+    //Clear sample-metadata to add current metadata
+    var clearMetadata = d3.select('#sample-metadata');
+    
+    clearMetadata.html("")
+
+    //Create array for current metadata
+    var currentMetadata = []
+
+
+    //Loop through metadata object to metadata.id === option
+    for (var i = 0; i < metadata.length; j++) {
+
+      if (parseInt(option) === metadata[i].id) {
+
+        //Push metadata to currentMetadata
+        currentMetadata.push(metadata[i]);
+        
+        
+      };
+    };
+    console.log(currentMetadata);
+
 
    
        
-    var microbes = newdataotuID.toString().split(",");
-    console.log(microbes)
-    var bbmicrobes = microbes.slice(0, 10);
-    console.log(bbmicrobes);
+    // var microbes = selectotuID.toString().split(",");
+    // console.log(microbes)
+    // var bbmicrobes = microbes.slice(0, 10);
+    // console.log(bbmicrobes);
                
             
             
-    var otuCount = newdataValues.map(function(counts) {
-         return counts;
-    }); 
+    // var otuCount = selectValues.map(function(counts) {
+    //      return counts;
+    // }); 
     
-    // var colonies = otuCount.slice(0, 10);              
-    // console.log(colonies);
-    var cFu = otuCount.toString().split(",");
-    var bubbleColonies = cFu.slice(0, 10, ",");
+    // // var colonies = otuCount.slice(0, 10);              
+    // // console.log(colonies);
+    // var cFu = otuCount.toString().split(",");
+    // var bubbleColonies = cFu.slice(0, 10, ",");
     
-    console.log(bubbleColonies);
+    // console.log(bubbleColonies);
        
-    //Horizontal bar chart  
-    var trace1 = {
-      x: parseInt(bubbleColonies),
-      y: bbmicrobes,
-      type: "bar",
-      name: "BellyBotton Biodiversity",
-      orientation: "h"
-    };
+    // //Horizontal bar chart  
+    // var trace1 = {
+    //   x: selectValues,
+    //   y: bbmicrobes,
+    //   type: "bar",
+    //   name: "BellyBotton Biodiversity",
+    //   orientation: "h"
+    // };
             
-              // Create the data array for the plot
-    var data = [trace1];
+    //           // Create the data array for the plot
+    // var data = [trace1];
             
-              // Define the plot layout
-    var layout = {
-        title: "BellyBotton Biodiversity",
-        xaxis: { title: "Count" },
-        yaxis: { title: "Otu ID" }
-    };
+    //           // Define the plot layout
+    // var layout = {
+    //     title: "BellyBotton Biodiversity",
+    //     xaxis: { title: "Count",
+    //             tickmode: "linear"},
+    //     yaxis: { title: "Otu ID" }
+    // };
             
-              // Plot the chart to a div tag with id "plot"
-    Plotly.newPlot("bar", data, layout);
+    //           // Plot the chart to a div tag with id "plot"
+    // Plotly.newPlot("bar", data, layout);
 
-    d3.select("ul").text(" ");
+    // d3.select("ul").text(" ");
         
    
-    for (i = 0; i < metadata.length; i++) {
+    // for (i = 0; i < metadata.length; i++) {
 
-      if (option === metadata[i].id){
+    //   if (option === metadata[i].id){
       
-        Object.entries(metadata).forEach(([key, value]) => {
-          console.log ([key, value])
-          d3.selectAll("ul").append("li").text(`${key} ${value}`);
-        });
-      };
-    };
+    //     Object.entries(metadata).forEach(([key, value]) => {
+    //       console.log ([key, value])
+    //       d3.selectAll("ul").append("li").text(`${key} ${value}`);
+    //     });
+    //   };
+    // };
     
     
         
-    // //Bubble chart
-    var trace2 = {
-      x: parseInt(bubbleColonies),
-      y: bbmicrobes,
-      mode: 'markers',
-      marker: {
-        size: [40, 60, 80, 100]
-      }
-    };
+    // // //Bubble chart
+    // var trace2 = {
+    //   x: newdataotuID,
+    //   y: newdataValues,
+      
+    //   mode: 'markers',
+    //   marker: {
+    //     size: newdataValues,
+    //     colors: newdataotuID,
+    //   }
+    // };
     
-    var data = [trace2];
+    // var bubbledata = [trace2];
     
-    var layout = {
-      title: 'Marker Size',
-      showlegend: false,
-      height: 600,
-      width: 600
-    };
+    // var bubblelayout = {
+    //   title: 'Marker Size',
+    //   showlegend: false,
+    //   height: 600,
+    //   width: 600
+    // };
     
-    Plotly.newPlot('bubble', data, layout);
+    // Plotly.newPlot('bubble', bubbledata, bubblelayout);
 
-    //Gauge chart
+    // //Gauge chart
   });
 };
 
