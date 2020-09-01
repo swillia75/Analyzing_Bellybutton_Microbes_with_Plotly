@@ -124,21 +124,25 @@ function init(){
   
            
 //     Create a bubble chart that displays each sample.
-   console.log(microbes);
-   console.log(otuCount);
-   console.log(labels);
+    console.log(Id);
+    console.log(otuCount);
+    console.log(labels);
     
 //     Create trace for bubble chart
     var tracebubble = {
       x: microbes,
-      y: otuCount,
+      y: colonies,
+      type: "scatter",
       mode: 'markers',
-      text: labels,
+      hovertext: labels,
+      
       marker: {
         size: otuCount,
-        color: microbes,
-
-      }
+        color: "red",
+        symbol: "circle"
+       
+      },
+      
     };
     
 //     Create data array for bubble plot
@@ -365,16 +369,21 @@ d3.json("data/samples.json").then(function(data) {
  
   
 //     Create trace for bubble chart
-  var tracebubble = {
-    x: microbes,
-    y: otuCount,
-    mode: 'markers',
-    hoverinfo: labels,
-    marker: {
-      size: otuCount,
-      color: microbes,
-    }
-  };
+var tracebubble = {
+  x: microbes,
+  y: colonies,
+  type: "scatter",
+  mode: 'markers',
+  hovertext: labels,
+  
+  markers: {
+    size: otuCount,
+    color: "red"
+    
+   
+  },
+  
+};
   
 //Create data array for bubble plot
   var bubbledata = [tracebubble];
