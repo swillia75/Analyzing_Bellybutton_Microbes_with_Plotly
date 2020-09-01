@@ -47,13 +47,16 @@ function init(){
         return samples.sample_values;
     }); 
 
-    console.log(otuCount);
+    var colonies = otuCount.toString().split(",");
+    var cfu = colonies.slice(0, 10, ",");
+    var count = cfu.toString()
+    console.log(count);
+   
     
     //Slicing the first 10 sample_vaues
-    var colonies = otuCount.slice(0, 10, ",");
-    console.log(colonies);
+
    
-    console.log(colonies);
+    
        
     //Create a horizontal bar chart with a dropdown menu to display the top 10 OTUs found in that individual.
 
@@ -62,21 +65,28 @@ function init(){
       return samples.otu_labels;
     });
 
-  
-    console.log(otuLabel);
+    var labels = otuLabel.toString().split(";");
+    var organism = labels.slice(0, 10, ";");
+    console.log(organism);
 
-    var labels= otuLabel.slice(0, 10, ",");
-    console.log(labels);
+    var bugs = []
+    
+    for (i=0; i<cfu.length; i++){
+      bugs.push(Number(cfu[i]))
+    }
+
+    console.log(bugs)
+  
     //Create trace for horizontal bar chart
   // });      
     var tracehbar = {
-      x: colonies,
-      y: bbmicrobes,
+      values: bugs,
+      labels: bbmicrobes,
       type: "bar",
-      hovertext: labels,
+      orientation: "h",
+      text: organism
       
-      name: "BellyBotton Biodiversity",
-      orientation: "h"
+     
     };
             
 //     Create the data array for the plot
@@ -117,7 +127,7 @@ function init(){
       x: Id,
       y: otuCount,
       mode: 'markers',
-      text: otuLabel,
+      text: labels,
       marker: {
         size: otuCount,
         color: microbes,
@@ -273,12 +283,20 @@ d3.json("data/samples.json").then(function(data) {
   console.log(otuCount);
   
   //Slicing the first 10 sample_vaues
-  var colonies = otuCount.slice(0, 10, ",");
-  console.log(colonies);
+  var colonies = otuCount.toString().split(",");
+  var cfu = colonies.slice(0, 10, ",");
+  var count = cfu.toString()
+  console.log(count);
  
-  console.log(colonies);
-     
-  //Create a horizontal bar chart with a dropdown menu to display the top 10 OTUs found in that individual.
+  var bugs = []
+    
+    for (i=0; i<cfu.length; i++){
+      bugs.push(Number(cfu[i]))
+    }
+
+    console.log(bugs)
+  //Create a horizontal bar chart with a dropdown menu to display the top 
+  //10 OTUs found in that individual.
 
   //Use otu_labels as the hovertext for the chart.
   var otuLabel = firstDataset.map(function(samples) {
@@ -286,17 +304,17 @@ d3.json("data/samples.json").then(function(data) {
   });
 
 
-  console.log(otuLabel);
+  var labels = otuLabel.toString().split(";");
+  var organism = labels.slice(0, 10, ";");
+  console.log(organism);
 
-  var labels= otuLabel.slice(0, 10, ",");
-  console.log(labels);
   //Create trace for horizontal bar chart
 // });      
   var tracehbar = {
-    x: colonies,
-    y: bbmicrobes,
+    values: otuCount,
+    labels: bbmicrobes,
     type: "bar",
-    hovertext: labels,
+    hovertext: organism,
     
     name: "BellyBotton Biodiversity",
     orientation: "h"
@@ -343,18 +361,17 @@ d3.json("data/samples.json").then(function(data) {
     x: Id,
     y: otuCount,
     mode: 'markers',
-    text: otuLabel,
+    text: labels,
     marker: {
       size: otuCount,
-      color: microbes,
-
+      color: Id,
     }
   };
   
-//     Create data array for bubble plot
+//Create data array for bubble plot
   var bubbledata = [tracebubble];
   
-//     Create layout for bubble plot
+//Create layout for bubble plot
   var bubblelayout = {
     title: 'BellyBottom Microbe Diversity',
     showlegend: false,
@@ -362,22 +379,22 @@ d3.json("data/samples.json").then(function(data) {
     width: 1000
   };
   
-//     Plot the chart to a div tag with id "bubble"
+//Plot the chart to a div tag with id "bubble"
   Plotly.newPlot('bubble', bubbledata, bubblelayout);
 
 //     Gauge chart
 
-//     Create array for Wfreq and other
+//Create array for Wfreq and other
   var wfreq = []
   var other = []
 
-//     Loop through first metadata for wfreq
+//Loop through first metadata for wfreq
   currentMetadata.forEach((data) => {
 
-//       Iterate through each key and value
+//Iterate through each key and value
     Object.entries(data).forEach(([key, value]) => {
   
-//         Use the key to determine which array to push the value to
+//Use the key to determine which array to push the value to
       if (key === "wfreq") {
         wfreq.push(value);
       }
@@ -388,7 +405,7 @@ d3.json("data/samples.json").then(function(data) {
   });
 
   console.log(wfreq);
-//     Use wfreq array to generate gauge plot
+// Use wfreq array to generate gauge plot
 
   var traceGauge = {
     type: 'pie',
@@ -433,7 +450,7 @@ d3.json("data/samples.json").then(function(data) {
   
   var dataGauge = [traceGauge]
   
-  Plotly.plot('gauge', dataGauge, gaugeLayout)
+  Plotly.newPlot('gauge', dataGauge, gaugeLayout)
 });
 };
 
