@@ -87,7 +87,7 @@ function init(){
       y: bbmicrobes,
       type: "bar",
       orientation: "h",
-      text: organism
+      hovertext: organism
      
     };
             
@@ -100,8 +100,7 @@ function init(){
         xaxis: { title: "Count" },
         yaxis: { title: "Otu ID",
                 autotick: true},
-        height; 400,
-        width: 400
+        
     };
             
 //     Plot the chart to a div tag with id "bar"
@@ -213,8 +212,6 @@ var traceGauge = {
         y0: 0.5,
         x1: 0.65,
         y1: 0.65,
-        x: x
-        y: y
         line: {
           color: 'black',
           width: 3
@@ -319,27 +316,28 @@ d3.json("data/samples.json").then(function(data) {
   console.log(organism);
 
   //Create trace for horizontal bar chart
-// });      
+  // });      
   var tracehbar = {
-    x: otuCount,
+    x: bugs,
     y: bbmicrobes,
     type: "bar",
-    hoverinfo: organism,
-    
-    name: "BellyBotton Biodiversity",
-    orientation: "h"
+    orientation: "h",
+    hovertext: organism
+ 
   };
-          
-//     Create the data array for the plot
+        
+    //     Create the data array for the plot
   var data = [tracehbar];
-          
-//     Define the plot layout
+        
+  //     Define the plot layout
   var layout = {
-      title: "BellyBotton Biodiversity",
-      xaxis: { title: "Count" },
-      yaxis: { title: "Otu ID" }
-  };
-          
+    title: "BellyBotton Biodiversity",
+    xaxis: { title: "Count" },
+    yaxis: { title: "Otu ID",
+            autotick: true},
+    
+};
+        
 //     Plot the chart to a div tag with id "bar"
   Plotly.newPlot("bar", data, layout);
 
