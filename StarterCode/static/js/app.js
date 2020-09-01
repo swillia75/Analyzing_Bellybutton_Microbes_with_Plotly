@@ -376,7 +376,7 @@ var tracebubble = {
   mode: 'markers',
   hovertext: labels,
   
-  markers: {
+  marker: {
     size: otuCount,
     color: "red"
     
