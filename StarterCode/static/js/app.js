@@ -50,7 +50,7 @@ function init(){
     var colonies = otuCount.toString().split(",");
     var cfu = colonies.slice(0, 10, ",");
     var count = cfu.toString()
-    console.log(count);
+   
    
     
     //Slicing the first 10 sample_vaues
@@ -67,25 +67,27 @@ function init(){
 
     var labels = otuLabel.toString().split(";");
     var organism = labels.slice(0, 10, ";");
-    console.log(organism);
-
+   
+    //Slice function not working use loop to 
+    //turn string array to integers
     var bugs = []
     
     for (i=0; i<cfu.length; i++){
       bugs.push(Number(cfu[i]))
     }
 
-    console.log(bugs)
+    console.log(bugs);
+    console.log(bbmicrobes);
+    console.log(organism);
   
     //Create trace for horizontal bar chart
   // });      
     var tracehbar = {
-      values: bugs,
-      labels: bbmicrobes,
+      x: bugs,
+      y: bbmicrobes,
       type: "bar",
       orientation: "h",
       text: organism
-      
      
     };
             
@@ -96,7 +98,10 @@ function init(){
     var layout = {
         title: "BellyBotton Biodiversity",
         xaxis: { title: "Count" },
-        yaxis: { title: "Otu ID" }
+        yaxis: { title: "Otu ID",
+                autotick: true},
+        height; 400,
+        width: 400
     };
             
 //     Plot the chart to a div tag with id "bar"
@@ -120,11 +125,13 @@ function init(){
   
            
 //     Create a bubble chart that displays each sample.
-   
+   console.log(microbes);
+   console.log(otuCount);
+   console.log(labels);
     
 //     Create trace for bubble chart
     var tracebubble = {
-      x: Id,
+      x: microbes,
       y: otuCount,
       mode: 'markers',
       text: labels,
@@ -149,9 +156,9 @@ function init(){
 //     Plot the chart to a div tag with id "bubble"
     Plotly.newPlot('bubble', bubbledata, bubblelayout);
   
-//     Gauge chart
+   // Gauge chart
 
-//     Create array for Wfreq and other
+    //Create array for Wfreq and other
     var wfreq = []
     var other = []
 
@@ -163,6 +170,7 @@ function init(){
     
 //         Use the key to determine which array to push the value to
         if (key === "wfreq") {
+         
           wfreq.push(value);
         }
         else {
@@ -172,39 +180,41 @@ function init(){
     });
 
     console.log(wfreq);
+
 //     Use wfreq array to generate gauge plot
 
-    var traceGauge = {
-      type: 'pie',
-      showlegend: false,
-      hole: 0.4,
-      rotation: 90,
-      values: [ 180/9, 180/9, 180/9, 180/9, 180/9, 180/9, 180/9, 180/9, 180/9, 180],
-      text: ['0-1','1-2','2-3','3-4','4-5','5-6','6-7','7-8','8-9'],
-      direction: 'clockwise',
-      textinfo: 'text',
-      textposition: 'inside',
-      marker: {
-        colors: ['red','orange','yellow','tan','green','blue','purple','maroon','grey', 'white'],
-        labels: ['0-1','1-2','2-3','3-4','4-5','5-6','6-7','7-8','8-9'],
-        hoverinfo: 'label'
-      }
-    };
+var traceGauge = {
+  type: 'pie',
+  showlegend: false,
+  rotation: 90,
+  values: [ 180/10, 180/10, 180/10, 180/10, 180/10, 180/10, 180/10, 180/10, 180/10, 180/10, 180],
+  text: ['0','1','2','3','4','5','6','7','8','9'],
+  direction: 'clockwise',
+  textinfo: 'text',
+  textposition: 'inside',
+  marker: {
+    colors: ['red','orange','yellow','tan','green','blue','purple','maroon','grey', 'cyan', 'white'],
+    labels: ['0','1','2','3','4','5','6','7','8','9'],
+    
+  }
+};
 
  
-    var degrees = 20
+    var degrees = 18
     var radius = 0.9
     var radians = degrees * Math.PI / 180
     var x = 1 * radius * Math.cos(radians) * 7
     var y = radius * Math.sin(radians)
     
-    var gaugeLayout = {
+    var needleLayout = {
       shapes: [{
         type: 'line',
         x0: 0.5,
         y0: 0.5,
-        x: x,
-        y: y,
+        x1: 0.65,
+        y1: 0.65,
+        x: x
+        y: y
         line: {
           color: 'black',
           width: 3
@@ -217,7 +227,7 @@ function init(){
     
     var dataGauge = [traceGauge]
     
-    Plotly.plot('gauge', dataGauge, gaugeLayout)
+    Plotly.plot('gauge', dataGauge, needleLayout)
   });
 
 };
@@ -311,10 +321,10 @@ d3.json("data/samples.json").then(function(data) {
   //Create trace for horizontal bar chart
 // });      
   var tracehbar = {
-    values: otuCount,
-    labels: bbmicrobes,
+    x: otuCount,
+    y: bbmicrobes,
     type: "bar",
-    hovertext: organism,
+    hoverinfo: organism,
     
     name: "BellyBotton Biodiversity",
     orientation: "h"
@@ -358,13 +368,13 @@ d3.json("data/samples.json").then(function(data) {
   
 //     Create trace for bubble chart
   var tracebubble = {
-    x: Id,
+    x: microbes,
     y: otuCount,
     mode: 'markers',
-    text: labels,
+    hoverinfo: labels,
     marker: {
       size: otuCount,
-      color: Id,
+      color: microbes,
     }
   };
   
@@ -409,17 +419,15 @@ d3.json("data/samples.json").then(function(data) {
 
   var traceGauge = {
     type: 'pie',
-    showlegend: false,
-    hole: 0.4,
     rotation: 90,
-    values: [ 180/9, 180/9, 180/9, 180/9, 180/9, 180/9, 180/9, 180/9, 180/9, 180],
-    text: ['0-1','1-2','2-3','3-4','4-5','5-6','6-7','7-8','8-9'],
+    values: [ 180/10, 180/10, 180/10, 180/10, 180/10, 180/10, 180/10, 180/10, 180/10, 180/10, 180],
+    text: ['0','1','2','3','4','5','6','7','8','9'],
     direction: 'clockwise',
     textinfo: 'text',
     textposition: 'inside',
     marker: {
-      colors: ['red','orange','yellow','tan','green','blue','purple','maroon','grey', 'white'],
-      labels: ['0-1','1-2','2-3','3-4','4-5','5-6','6-7','7-8','8-9'],
+      colors: ['red','orange','yellow','tan','green','blue','purple','maroon','grey', 'cyan', 'white'],
+      labels: ['0','1','2','3','4','5','6','7','8','9'],
       hoverinfo: 'label'
     }
   };
