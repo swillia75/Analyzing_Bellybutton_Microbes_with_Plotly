@@ -20,9 +20,11 @@ function init(){
       .append("option").text(name).property("value", name)
     });
 
+    var option = "940"
+
     //FIlter samples and metadata arrays for first subject - "940"
     function initialSubject(subject) {
-      return subject.id === "940";
+      return subject.id === option;
     };  
 
     var firstDataset = samples.filter(initialSubject);
@@ -108,7 +110,7 @@ function init(){
 
 //     Create function to filter first subject metadata for panel    
     function initialMetadata(data) {
-      return data.id === 940;
+      return data.id === parseInt(option);
     };
 
     
@@ -137,8 +139,8 @@ function init(){
       hovertext: labels,
       
       marker: {
-        size: otuCount,
-        color: "red",
+        size: colonies,
+        color: microbes,
         symbol: "circle"
        
       },
@@ -369,21 +371,21 @@ d3.json("data/samples.json").then(function(data) {
  
   
 //     Create trace for bubble chart
-var tracebubble = {
-  x: microbes,
-  y: colonies,
-  type: "scatter",
-  mode: 'markers',
-  hovertext: labels,
+  var tracebubble = {
+    x: microbes,
+    y: colonies,
+    type: "scatter",
+    mode: 'markers',
+    hovertext: labels,
   
-  marker: {
-    size: otuCount,
-    color: "red"
-    
+    marker: {
+      size: colonies,
+      color: microbes,
+      symbol: "circle"
    
-  },
+    },
   
-};
+  };
   
 //Create data array for bubble plot
   var bubbledata = [tracebubble];
@@ -440,19 +442,19 @@ var tracebubble = {
   };
 
 
-  var degrees = 20
-  var radius = 0.9
-  var radians = degrees * Math.PI / 180
-  var x = 1 * radius * Math.cos(radians) * 7
-  var y = radius * Math.sin(radians)
+  var degrees = 18, radius = 0.9;
+  
+  var radians = degrees * Math.PI / 180;
+  var x = -1 * radius * Math.cos(radians) * wfreq;
+  var y = radius * Math.sin(radians);
   
   var gaugeLayout = {
     shapes: [{
       type: 'line',
       x0: 0.5,
       y0: 0.5,
-      x: x,
-      y: y,
+      x1: x,
+      y1: y,
       line: {
         color: 'black',
         width: 3
