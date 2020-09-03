@@ -164,8 +164,8 @@ function init(){
    // Gauge chart
 
     //Create array for Wfreq and other
-    var wfreq = []
-    var other = []
+    var wfreq = [];
+    var other = [];
 
 //     Loop through first metadata for wfreq
     firstMetadata.forEach((data) => {
@@ -204,7 +204,7 @@ function init(){
     };
 
 
-    var degrees = 97, radius = 1.0;
+    var degrees = 103, radius = 0.9;
 
     var radians = degrees * Math.PI / 180;
     var x = -1 * radius * Math.cos(radians) * wfreq;
@@ -328,8 +328,8 @@ function optionChanged() {
       y: bbmicrobes,
       type: "bar",
       orientation: "h",
-      hovertext: organism
-  
+      hovertext: organism,
+        
     };
           
       //     Create the data array for the plot
@@ -404,8 +404,8 @@ function optionChanged() {
   //     Gauge chart
 
   //Create array for Wfreq and other
-    var wfreq = []
-    var other = []
+    var wfreq = [];
+    var other = [];
 
   //Loop through first metadata for wfreq
     currentMetadata.forEach((data) => {
@@ -424,6 +424,48 @@ function optionChanged() {
     });
 
     console.log(wfreq);
+
+    var wash = wfreq[0];
+    console.log(wash);
+
+    // var degrees;
+    
+    // if (wash = "null") {
+    //   degrees = 74;
+    // }
+    // else if (wash = 1) {
+    //   degrees = 90;
+    // }    
+    // else if (wash = 2) {
+    //   degrees = 97;
+    // }    
+    // else if (wash = 3) {
+    //   degrees = 101;
+    // }    
+    // else if (wash = 4) {
+    //   degrees = 103;
+    // }    
+    // else if (wash = 5) {
+    //   degrees = 105;
+    // }    
+    // else if (wash = 6) {
+    //   degrees = 108;
+    // }    
+    // else if (wash = 7) {
+    //   degrees += 111;
+    // }    
+    // else if (wash = 8) {
+    //   degrees += 115;
+    // }    
+    // else if (wash = 9) {
+    //   degrees += 125;
+    // };        
+       
+      
+  
+    
+   
+    // console.log(degrees);
   // Use wfreq array to generate gauge plot
 
     var traceGauge = {
@@ -441,11 +483,15 @@ function optionChanged() {
       }
     };
 
+    
 
-    var degrees = 97, radius = 1.5;
+      
+    
+
+    var degrees = 96, radius = 1.0
     
     var radians = degrees * Math.PI / 180;
-    var x = 1 * radius * Math.cos(radians) * wfreq;
+    var x = -1 * radius * Math.cos(radians) * wash;
     var y = radius * Math.sin(radians);
     
     var gaugeLayout = {
