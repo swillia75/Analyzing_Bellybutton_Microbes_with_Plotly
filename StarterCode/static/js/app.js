@@ -188,6 +188,7 @@ function init(){
 
 //     Use wfreq array to generate gauge plot
 
+    //Create initial gauge chart trace
     var traceGauge = {
       type: 'pie',
       rotation: 90,
@@ -203,13 +204,15 @@ function init(){
       }
     };
 
+    //Set up needle for intial subject
 
-    var degrees = 103, radius = 0.9;
+    var degrees = 97, radius = 0.9;
 
     var radians = degrees * Math.PI / 180;
-    var x = -1 * radius * Math.cos(radians) * wfreq;
+    var x = -1 * radius * Math.cos(radians);
     var y = radius * Math.sin(radians);
 
+    //Set up Gauge layout
     var gaugeLayout = {
       shapes: [{
         type: 'line',
@@ -228,8 +231,10 @@ function init(){
       yaxis: {visible: false, range: [-1, 1]}
     };
 
+    //Create data gauge array
     var dataGauge = [traceGauge];
 
+    //Plot initial gauge chart
     Plotly.newPlot('gauge', dataGauge, gaugeLayout);
   });
 
@@ -425,48 +430,19 @@ function optionChanged() {
 
     console.log(wfreq);
 
+    //Get number from array for needle calculation
     var wash = wfreq[0];
     console.log(wash);
 
-    // var degrees;
-    
-    // if (wash = "null") {
-    //   degrees = 74;
-    // }
-    // else if (wash = 1) {
-    //   degrees = 90;
-    // }    
-    // else if (wash = 2) {
-    //   degrees = 97;
-    // }    
-    // else if (wash = 3) {
-    //   degrees = 101;
-    // }    
-    // else if (wash = 4) {
-    //   degrees = 103;
-    // }    
-    // else if (wash = 5) {
-    //   degrees = 105;
-    // }    
-    // else if (wash = 6) {
-    //   degrees = 108;
-    // }    
-    // else if (wash = 7) {
-    //   degrees += 111;
-    // }    
-    // else if (wash = 8) {
-    //   degrees += 115;
-    // }    
-    // else if (wash = 9) {
-    //   degrees += 125;
-    // };        
-       
+      
       
   
     
    
-    // console.log(degrees);
+    
   // Use wfreq array to generate gauge plot
+
+    //Create gauge chart trace
 
     var traceGauge = {
       type: 'pie',
@@ -486,13 +462,15 @@ function optionChanged() {
     
 
       
-    
+    //Create  needle and gauge
 
-    var degrees = 96, radius = 1.0
+    var degrees = 97, radius = 0.9
     
     var radians = degrees * Math.PI / 180;
     var x = -1 * radius * Math.cos(radians) * wash;
     var y = radius * Math.sin(radians);
+    
+    //set up gauge layout
     
     var gaugeLayout = {
       shapes: [{
@@ -511,10 +489,15 @@ function optionChanged() {
       yaxis: {visible: false, range: [-1, 1]}
     };
     
+    //Create dataGauge array
     var dataGauge = [traceGauge]
+
+    //plot gauge chart
     
     Plotly.newPlot('gauge', dataGauge, gaugeLayout)
   });
 };
+
+//Intiate initial page
 init();
 
