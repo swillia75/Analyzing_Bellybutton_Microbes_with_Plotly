@@ -185,7 +185,8 @@ function init(){
     });
 
     console.log(wfreq);
-
+    var wash = wfreq[0];
+    console.log(wash);
 //     Use wfreq array to generate gauge plot
 
     //Create initial gauge chart trace
@@ -209,7 +210,7 @@ function init(){
     var degrees = 97, radius = 0.9;
 
     var radians = degrees * Math.PI / 180;
-    var x = -1 * radius * Math.cos(radians);
+    var x = -1 * radius * Math.cos(radians) * wash;
     var y = radius * Math.sin(radians);
 
     //Set up Gauge layout
