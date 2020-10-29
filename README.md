@@ -1,7 +1,7 @@
 # Plotly_challenge
 Project Description
 
-![](Images/bacteria.png)
+![](Images/bacteria.jpg)
 
 The task is to build an interactive dashboard using Belly Button Diversity data to visualize 
 the microbial content of individual’s navel area. The microbes are identified as OTUs (operational 
